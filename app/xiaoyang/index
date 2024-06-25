@@ -1,5 +1,5 @@
 {
-"code":"true",
+"code":"false",
 "url":"http://www.xiaoyang.cab/api/",
 "hide":"true",
 "vip":"true",
@@ -8,7 +8,7 @@
 "videourl":"https://api.tiankongapi.com/api.php/provide/vod/",
 "qq":"3789658778",
 "qun":"770713245",
-"content":"服务器正在维护中，预计22点完毕，谢谢"
+"content":"服务器数据迁移中，等待恢复"
 "button1":"加群",
 "button2":"取消",
 "zsjm":"0",
