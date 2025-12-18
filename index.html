@@ -1,12 +1,897 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人网站</title>
+    <title>全能视频解析 - 免费在线视频解析服务</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: #3498db;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #f1c40f;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+        
+        /* 解析面板 */
+        .parse-panel {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .section-title i {
+            color: var(--primary-color);
+        }
+        
+        .section-title h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        
+        /* 输入区域 */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-with-btn {
+            display: flex;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .input-with-btn {
+                flex-direction: column;
+            }
+        }
+        
+        .url-input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .primary-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .primary-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.2);
+        }
+        
+        .primary-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* 解析接口选择 */
+        .apis-container {
+            margin-top: 1.5rem;
+        }
+        
+        .apis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .apis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .api-item {
+            background-color: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .api-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .api-item.active {
+            border-color: var(--primary-color);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .api-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), #5dade2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .api-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            color: var(--secondary-color);
+        }
+        
+        .api-info p {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        /* 播放器区域 */
+        .player-section {
+            display: none;
+            margin-top: 2rem;
+        }
+        
+        .player-container {
+            width: 100%;
+            background-color: #000;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .player-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            background-color: #1a1a1a;
+            color: #aaa;
+            text-align: center;
+        }
+        
+        .player-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+        
+        .player-placeholder p {
+            font-size: 1.1rem;
+            max-width: 500px;
+        }
+        
+        .player-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .secondary-btn {
+            background-color: #f1f2f6;
+            color: var(--secondary-color);
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 0.7rem 1.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .secondary-btn:hover {
+            background-color: #e4e5e9;
+        }
+        
+        .copy-btn {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .copy-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        /* 使用说明 */
+        .instructions {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .step {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .step-content h4 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+        
+        .step-content p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .player-actions {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            
+            .secondary-btn {
+                justify-content: center;
+            }
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(52, 152, 219, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 提示信息 */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .alert.success {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--success-color);
+            color: #27ae60;
+        }
+        
+        .alert.error {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--accent-color);
+            color: #c0392b;
+        }
+        
+        .alert.info {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid var(--primary-color);
+            color: var(--primary-dark);
+        }
+        
+        .close-alert {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: inherit;
+        }
+    </style>
 </head>
 <body>
-    <h1>欢迎来到我的个人网站！</h1>
-    <p>这里是你的网站主要内容...</p>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-play-circle"></i>
+                <h1>全能<span>视频解析</span></h1>
+            </div>
+            <nav class="nav-links">
+                <a href="#"><i class="fas fa-home"></i> 首页</a>
+                <a href="#"><i class="fas fa-question-circle"></i> 使用帮助</a>
+                <a href="#"><i class="fas fa-list"></i> 解析接口</a>
+                <a href="#"><i class="fas fa-envelope"></i> 联系反馈</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <!-- 解析面板 -->
+        <section class="parse-panel">
+            <div class="section-title">
+                <i class="fas fa-video"></i>
+                <h2>视频解析</h2>
+            </div>
+            
+            <!-- 提示信息 -->
+            <div class="alert info" id="infoAlert">
+                <span>请输入需要解析的视频链接，然后选择一个解析接口，点击解析按钮</span>
+                <button class="close-alert">&times;</button>
+            </div>
+            
+            <div class="alert success" id="successAlert">
+                <span>解析成功！视频已准备就绪，可以开始播放了</span>
+                <button class="close-alert">&times;</button>
+            </div>
+            
+            <div class="alert error" id="errorAlert">
+                <span>解析失败，请检查链接是否正确或尝试其他解析接口</span>
+                <button class="close-alert">&times;</button>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-group">
+                <label for="videoUrl"><i class="fas fa-link"></i> 视频链接地址</label>
+                <div class="input-with-btn">
+                    <input type="url" id="videoUrl" class="url-input" placeholder="请输入视频链接（例如：https://www.bilibili.com/video/BV1xx411c7mu）" value="https://www.bilibili.com/video/BV1xx411c7mu">
+                    <button class="primary-btn" id="parseBtn">
+                        <i class="fas fa-bolt"></i> 立即解析
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 加载动画 -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>正在解析中，请稍候...</p>
+            </div>
+            
+            <!-- 解析接口选择 -->
+            <div class="apis-container">
+                <div class="section-title">
+                    <i class="fas fa-plug"></i>
+                    <h2>选择解析接口</h2>
+                </div>
+                <p>请选择一个解析接口（推荐使用前几个接口）</p>
+                <div class="apis-grid" id="apisGrid">
+                    <!-- API接口会通过JS动态添加 -->
+                </div>
+            </div>
+            
+            <!-- 播放器区域 -->
+            <div class="player-section" id="playerSection">
+                <div class="section-title">
+                    <i class="fas fa-play-circle"></i>
+                    <h2>视频播放</h2>
+                </div>
+                
+                <div class="player-container">
+                    <div class="player-placeholder" id="playerPlaceholder">
+                        <i class="fas fa-film"></i>
+                        <p>解析后的视频将在此处播放</p>
+                    </div>
+                    <iframe id="videoPlayer" style="width:100%; height:500px; border:none; display:none;" allowfullscreen></iframe>
+                </div>
+                
+                <div class="player-actions">
+                    <div>
+                        <button class="secondary-btn" id="newWindowBtn">
+                            <i class="fas fa-external-link-alt"></i> 新窗口打开
+                        </button>
+                        <button class="secondary-btn" id="copyUrlBtn">
+                            <i class="fas fa-copy"></i> 复制解析链接
+                        </button>
+                    </div>
+                    <div>
+                        <button class="secondary-btn" id="changeApiBtn">
+                            <i class="fas fa-random"></i> 更换解析接口
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 使用说明 -->
+        <section class="instructions">
+            <div class="section-title">
+                <i class="fas fa-info-circle"></i>
+                <h2>使用说明</h2>
+            </div>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>复制视频链接</h4>
+                        <p>在爱奇艺、腾讯视频、优酷、Bilibili等视频网站复制您想观看的视频链接地址</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>粘贴并选择接口</h4>
+                        <p>将视频链接粘贴到上方输入框中，然后选择一个解析接口（推荐使用前几个）</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>解析并播放</h4>
+                        <p>点击"立即解析"按钮，稍等片刻即可播放视频，如遇到问题可尝试其他解析接口</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">
+                <i class="fas fa-play-circle"></i>
+                <h2>全能<span>视频解析</span></h2>
+            </div>
+            <div class="footer-links">
+                <a href="#">关于我们</a>
+                <a href="#">免责声明</a>
+                <a href="#">隐私政策</a>
+                <a href="#">使用条款</a>
+            </div>
+            <div class="copyright">
+                <p>© 2023 全能视频解析 本网站仅供学习交流使用，不存储任何视频内容</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 解析接口数据
+        const apis = [
+            { name: "789解析", api: "https://jiexi.789jiexi.net:4433/?url=" },
+            { name: "咸鱼云解析", api: "https://jx.xymp4.cc/?url=" },
+            { name: "8090解析", api: "https://www.8090g.cn/?url=" },
+            { name: "BL解析", api: "https://vip.bljiex.cc/?v=" },
+            { name: "虾米解析", api: "https://jx.xmflv.com/?url=" },
+            { name: "m3u8Tv解析", api: "https://jx.m3u8.tv/jiexi/?url=" },
+            { name: "ckplayer无广告解析", api: "https://www.ckplayer.vip/jiexi/?url=" },
+            { name: "冰豆解析", api: "https://bd.jx.cn/?url=" },
+            { name: "夜幕解析", api: "https://www.yemu.xyz/?url=" },
+            { name: "JYPlayer解析", api: "https://jx.playerjy.com/?url=" },
+            { name: "盘古解析", api: "https://www.pangujiexi.com/jiexi/?url=" },
+            { name: "麒麟解析", api: "https://jx.haokantv.cyou/player/?url=" },
+            { name: "超快解析", api: "https://www.ckplayer.vip/jiexi/?url=" }
+        ];
+        
+        // DOM元素
+        const apisGrid = document.getElementById('apisGrid');
+        const videoUrlInput = document.getElementById('videoUrl');
+        const parseBtn = document.getElementById('parseBtn');
+        const playerSection = document.getElementById('playerSection');
+        const playerPlaceholder = document.getElementById('playerPlaceholder');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const loading = document.getElementById('loading');
+        const infoAlert = document.getElementById('infoAlert');
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        const newWindowBtn = document.getElementById('newWindowBtn');
+        const copyUrlBtn = document.getElementById('copyUrlBtn');
+        const changeApiBtn = document.getElementById('changeApiBtn');
+        
+        // 当前选中的API
+        let selectedApi = apis[0];
+        // 当前解析的URL
+        let currentParsedUrl = '';
+        
+        // 初始化函数
+        function init() {
+            // 显示提示信息
+            showAlert('info');
+            
+            // 渲染API接口列表
+            renderApis();
+            
+            // 绑定事件监听器
+            bindEvents();
+        }
+        
+        // 渲染API接口列表
+        function renderApis() {
+            apisGrid.innerHTML = '';
+            
+            apis.forEach((api, index) => {
+                const apiElement = document.createElement('div');
+                apiElement.className = 'api-item' + (index === 0 ? ' active' : '');
+                apiElement.dataset.apiIndex = index;
+                
+                // 生成接口图标（使用名称的首字母）
+                const apiIcon = api.name.charAt(0);
+                
+                apiElement.innerHTML = `
+                    <div class="api-icon">${apiIcon}</div>
+                    <div class="api-info">
+                        <h4>${api.name}</h4>
+                        <p>${api.api}</p>
+                    </div>
+                `;
+                
+                apisGrid.appendChild(apiElement);
+            });
+        }
+        
+        // 绑定事件监听器
+        function bindEvents() {
+            // API选择事件
+            document.querySelectorAll('.api-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有active类
+                    document.querySelectorAll('.api-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    
+                    // 为当前选中项添加active类
+                    this.classList.add('active');
+                    
+                    // 更新选中的API
+                    const apiIndex = parseInt(this.dataset.apiIndex);
+                    selectedApi = apis[apiIndex];
+                    
+                    // 如果有当前解析的URL，立即重新解析
+                    if (currentParsedUrl) {
+                        const videoUrl = videoUrlInput.value.trim();
+                        if (videoUrl) {
+                            parseVideo(videoUrl);
+                        }
+                    }
+                });
+            });
+            
+            // 解析按钮点击事件
+            parseBtn.addEventListener('click', function() {
+                const videoUrl = videoUrlInput.value.trim();
+                
+                if (!videoUrl) {
+                    showAlert('error', '请输入视频链接地址');
+                    videoUrlInput.focus();
+                    return;
+                }
+                
+                parseVideo(videoUrl);
+            });
+            
+            // 新窗口打开按钮
+            newWindowBtn.addEventListener('click', function() {
+                if (currentParsedUrl) {
+                    window.open(currentParsedUrl, '_blank');
+                }
+            });
+            
+            // 复制解析链接按钮
+            copyUrlBtn.addEventListener('click', function() {
+                if (currentParsedUrl) {
+                    navigator.clipboard.writeText(currentParsedUrl)
+                        .then(() => {
+                            // 临时改变按钮文本
+                            const originalText = this.innerHTML;
+                            this.innerHTML = '<i class="fas fa-check"></i> 已复制';
+                            this.style.backgroundColor = '#2ecc71';
+                            
+                            setTimeout(() => {
+                                this.innerHTML = originalText;
+                                this.style.backgroundColor = '';
+                            }, 2000);
+                        })
+                        .catch(err => {
+                            console.error('复制失败: ', err);
+                            showAlert('error', '复制失败，请手动复制链接');
+                        });
+                }
+            });
+            
+            // 更换解析接口按钮
+            changeApiBtn.addEventListener('click', function() {
+                // 随机选择一个API（排除当前选中的）
+                const currentIndex = apis.findIndex(api => api === selectedApi);
+                let newIndex;
+                do {
+                    newIndex = Math.floor(Math.random() * apis.length);
+                } while (newIndex === currentIndex && apis.length > 1);
+                
+                // 更新选中状态
+                document.querySelectorAll('.api-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                
+                document.querySelector(`.api-item[data-api-index="${newIndex}"]`).classList.add('active');
+                selectedApi = apis[newIndex];
+                
+                // 重新解析
+                const videoUrl = videoUrlInput.value.trim();
+                if (videoUrl) {
+                    parseVideo(videoUrl);
+                }
+            });
+            
+            // 关闭提示信息
+            document.querySelectorAll('.close-alert').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+            
+            // 示例链接点击
+            videoUrlInput.addEventListener('focus', function() {
+                if (this.value.includes('示例')) {
+                    this.value = '';
+                }
+            });
+        }
+        
+        // 解析视频函数
+        function parseVideo(videoUrl) {
+            // 显示加载动画
+            loading.style.display = 'block';
+            playerSection.style.display = 'none';
+            hideAllAlerts();
+            
+            // 构建解析URL
+            const parsedUrl = selectedApi.api + encodeURIComponent(videoUrl);
+            currentParsedUrl = parsedUrl;
+            
+            // 模拟解析过程（实际应该调用API，这里用延时模拟）
+            setTimeout(() => {
+                // 隐藏加载动画
+                loading.style.display = 'none';
+                
+                // 显示播放器区域
+                playerSection.style.display = 'block';
+                
+                // 隐藏占位符，显示播放器
+                playerPlaceholder.style.display = 'none';
+                videoPlayer.style.display = 'block';
+                
+                // 设置播放器源
+                videoPlayer.src = parsedUrl;
+                
+                // 显示成功消息
+                showAlert('success', `使用 ${selectedApi.name} 解析成功！`);
+            }, 1500);
+        }
+        
+        // 显示提示信息
+        function showAlert(type, message = '') {
+            // 隐藏所有提示
+            hideAllAlerts();
+            
+            // 显示指定类型的提示
+            const alertElement = document.getElementById(`${type}Alert`);
+            
+            if (message) {
+                const alertText = alertElement.querySelector('span');
+                if (alertText) {
+                    alertText.textContent = message;
+                }
+            }
+            
+            alertElement.style.display = 'block';
+        }
+        
+        // 隐藏所有提示
+        function hideAllAlerts() {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.display = 'none';
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // 添加键盘快捷键支持
+        document.addEventListener('keydown', function(e) {
+            // Ctrl + Enter 触发解析
+            if (e.ctrlKey && e.key === 'Enter') {
+                parseBtn.click();
+            }
+            
+            // Escape 键隐藏播放器
+            if (e.key === 'Escape' && playerSection.style.display === 'block') {
+                playerSection.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
